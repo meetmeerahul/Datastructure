@@ -1,0 +1,63 @@
+import java.util.*;
+
+public class SuffixTrie {
+    private Map<Character, SuffixTrie> children;
+    private List<Integer> indexes;
+
+    
+    public SuffixTrie() {
+        children = new HashMap<Character, SuffixTrie>();
+        indexes = new ArrayList<Integer>();
+    }
+
+
+    public void insert(String word, int index) {
+        indexes.add(index);
+        if (word != null && word.length() > 0) {
+            char firstChar = word.charAt(0);
+            SuffixTrie child = children.get(firstChar);
+            if (child == null) {
+                child = new SuffixTrie();
+                children.put(firstChar, child);
+            }
+            child.insert(word.substring(1), index);
+        }
+    }
+
+    public List<Integer> search(String word) {
+        if (word == null || word.length() == 0) {
+            return indexes;
+        } else {
+            char firstChar = word.charAt(0);
+            SuffixTrie child = children.get(firstChar);
+            if (child != null) {
+                return child.search(word.substring(1));
+            }
+        }
+        return null;
+    }
+
+    public void delete(String word, int index) {
+        if (word == null || word.length() == 0) {
+            indexes.remove(Integer.valueOf(index));
+        } else {
+            char firstChar = word.charAt(0);
+            SuffixTrie child = children.get(firstChar);
+            if (child != null) {
+                child.delete(word.substring(1), index);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        SuffixTrie trie = new SuffixTrie();
+        trie.insert("banana", 0);
+        trie.insert("ana", 1);
+        trie.insert("nana", 2);
+        trie.insert("na", 3);
+        System.out.println(trie.search("na")); // Output: [3]
+        trie.delete("na", 3);
+        System.out.println(trie.search("na")); // Output: []
+    }
+
+}

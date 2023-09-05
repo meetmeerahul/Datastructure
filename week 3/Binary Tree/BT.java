@@ -1,0 +1,151 @@
+
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+class BT {
+
+    class TreeNode {
+        public TreeNode left;
+        public TreeNode right;
+
+        public int data;
+
+        TreeNode(int data) {
+            this.data = data;
+        }
+    }
+
+    public TreeNode root;
+
+    public void createNode(TreeNode root,int val) {
+
+
+        //    if(root==null){
+
+        //     root=new TreeNode(val);
+        //     return root;
+        // }
+
+        // if(val<root.data){
+
+        //     root.left=insertNode(root.left, val);
+        // }
+        // else{
+        //     root.right=insertNode(root.right,val);
+        // }
+        // return root;
+
+        TreeNode first = new TreeNode(1);
+        TreeNode second = new TreeNode(2);
+        TreeNode third = new TreeNode(3);
+        TreeNode forth = new TreeNode(4);
+        TreeNode fifth = new TreeNode(5);
+
+        root = first;
+        first.left = second;
+        first.right = third;
+        second.left = forth;
+        second.right = fifth;
+    }
+
+    public void preOrder(TreeNode root) {
+
+        if (root == null) {
+            return;
+        }
+        System.out.print(root.data + " ");
+        preOrder(root.left);
+        preOrder(root.right);
+    }
+
+    public void inOrder(TreeNode root) {
+
+        if (root == null) {
+
+            return;
+        }
+
+        inOrder(root.left);
+        System.out.print(root.data + " ");
+        inOrder(root.right);
+    }
+
+    public void postOrder(TreeNode root) {
+
+        if (root == null) {
+            return;
+        }
+
+        postOrder(root.left);
+        postOrder(root.right);
+        System.out.print(root.data + " ");
+    }
+
+    public void levelOrder() {
+
+        if (root == null) {
+            return;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            TreeNode temp = queue.poll();
+            System.out.print(temp.data + " ");
+
+            if (temp.left != null) {
+                queue.offer(temp.left);
+            }
+
+            if (temp.right != null) {
+                queue.offer(temp.right);
+            }
+
+        }
+    }
+
+    public int findMax(TreeNode root) {
+
+        if (root == null) {
+
+            return Integer.MIN_VALUE;
+
+        }
+
+        int result = root.data;
+
+        int left = findMax(root.left);
+        int right = findMax(root.right);
+
+        if (result < left) {
+            result = left;
+        }
+        if (result < right) {
+            result = right;
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+
+        BT tree = new BT();
+
+
+        tree.createNode(tree.root,1);
+        tree.preOrder(tree.root);
+        System.out.println();
+        tree.inOrder(tree.root);
+        System.out.println();
+        tree.postOrder(tree.root);
+
+        System.out.println();
+
+        tree.levelOrder();
+
+        System.out.println("\nMax Value " + tree.findMax(tree.root));
+
+    }
+}

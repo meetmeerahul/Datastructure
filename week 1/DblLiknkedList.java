@@ -1,0 +1,230 @@
+import java.util.Scanner;
+
+public class DblLiknkedList {
+
+  class Node {
+    int data;
+    Node next;
+    Node prev;
+
+    Node(int data) {
+      this.data = data;
+    }
+  }
+
+  public Node head;
+  public Node tail;
+
+  public void addData(int data) {
+    Node newNode = new Node(data);
+
+    if (head == null) {
+      head = newNode;
+    } else {
+      tail.next = newNode;
+      newNode.prev = tail;
+    }
+    tail = newNode;
+  }
+
+  public void display() {
+    Node temp = head;
+
+    if (temp == null) {
+      System.out.println("List is Empty");
+      return;
+    }
+    while (temp != null) {
+      System.out.print(temp.data + " ");
+      temp = temp.next;
+    }
+    System.out.println();
+  }
+
+  public void displayBackward() {
+    Node temp = tail;
+    if (temp == null) {
+      System.out.println("List is Empty");
+      return;
+    }
+    while (temp != null) {
+      System.out.print(temp.data + " ");
+      temp = temp.prev;
+    }
+    System.out.println();
+  }
+
+  public void insertAfter(int data, int nextTo) {
+    Node newNode = new Node(data);
+    Node temp = head;
+    if (temp == null) {
+      System.out.println("Currently the list is empty !");
+      return;
+    }
+
+    while (temp != null && temp.data != nextTo) {
+      temp = temp.next;
+    }
+
+    if (temp == null) {
+      return;
+    }
+
+    if (temp == tail) {
+      temp.next = newNode;
+      newNode.prev = temp;
+      return;
+    }
+
+    Node nodeAfterTemp = temp.next;
+    temp.next = newNode;
+    newNode.prev = temp;
+
+    newNode.next = nodeAfterTemp;
+    nodeAfterTemp.prev = newNode;
+  }
+
+  public void insertBefore(int data, int before) {
+    Node newNode = new Node(data);
+    Node temp = head;
+    if (temp == null) {
+      System.out.println("Currently the list is empty !");
+      return;
+    }
+
+    while (temp != null && temp.data != before) {
+      temp = temp.next;
+    }
+
+    if (temp == null) {
+      return;
+    }
+
+    if (temp.prev == null) {
+      newNode.next = temp;
+      temp.prev = newNode;
+    }
+
+    Node nodeBeforeTemp = temp.prev;
+
+    temp.prev = newNode;
+    newNode.prev = nodeBeforeTemp;
+    newNode.next = temp;
+    newNode.prev.next = newNode;
+  }
+
+  public void deleteBefore(int before) {
+    Node temp = head;
+    if (temp == null) {
+      System.out.println("Currently the list is empty !");
+      return;
+    }
+
+    while (temp != null && temp.data != before) {
+      temp = temp.next;
+    }
+
+    if (temp.prev == null) {
+      System.out.println("No element present to delete !!");
+      return;
+    }
+
+    if (temp.next == null) {
+      temp.prev.prev.next = temp;
+      return;
+    }
+
+    temp.prev.prev.next = temp;
+    temp.prev = temp.prev.prev;
+  }
+
+  public void deleteAfter(int after) {
+    Node temp = head;
+
+    if (temp == null) {
+      System.out.println("Currently the list is empty !");
+      return;
+    }
+
+    while (temp.next != null && temp.data != after) {
+      temp = temp.next;
+    }
+
+    if (temp.next == null) {
+      System.out.println("No Element to delete ");
+      return;
+    }
+
+    if (temp.next.next == null) {
+      tail = temp;
+      return;
+    }
+
+    temp.next = temp.next.next;
+    temp.next.prev = temp;
+  }
+
+  public static void main(String[] args) {
+    DblLiknkedList dlist = new DblLiknkedList();
+
+    boolean ctrl = true;
+
+    while (ctrl) {
+      System.out.println("----------------------------------");
+      System.out.println("Choose An Option");
+      System.out.println("1.Insert ");
+      System.out.println("2.Display");
+      System.out.println("3.Insert After");
+      System.out.println("4.Insert Before");
+      System.out.println("5.Delete Before");
+      System.out.println("6.Delete After");
+      System.out.println("7.Display Reverse");
+      System.out.println("8.Exit");
+
+      Scanner sc = new Scanner(System.in);
+      int option = sc.nextInt();
+      int value, elem;
+
+      switch (option) {
+        case 1:
+          value = sc.nextInt();
+          dlist.addData(value);
+          break;
+        case 2:
+          dlist.display();
+          break;
+        case 3:
+          System.out.println("After which element :");
+          value = sc.nextInt();
+          System.out.println("Which value :");
+          elem = sc.nextInt();
+          dlist.insertAfter(elem, value);
+          break;
+        case 4:
+          System.out.println("Before which element :");
+          value = sc.nextInt();
+          System.out.println("Which value :");
+          elem = sc.nextInt();
+          dlist.insertBefore(elem, value);
+          break;
+        case 5:
+          System.out.println("Before which element :");
+          value = sc.nextInt();
+          dlist.deleteBefore(value);
+          break;
+        case 6:
+          System.out.println("After which element :");
+          value = sc.nextInt();
+          dlist.deleteAfter(value);
+          break;
+        case 7:
+          dlist.displayBackward();
+          break;
+        case 8:
+          ctrl = false;
+
+          break;
+      }
+    }
+  }
+}

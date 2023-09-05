@@ -1,0 +1,61 @@
+
+
+
+step 1 : start ;
+
+step 2:  low=0,high=arr.lenght() 
+
+step3 : call partition(array,low,high)
+
+step 4: quickSort(arr,low,mid)
+
+step 5 : quickSort(arr,mid+1,high)
+
+
+
+ar=[2 ,4,  5 ,3 , 4,  6,7,11,16]
+
+
+
+
+
+
+partition(arr,low,high)
+
+
+    step 1 : initilize pivot =arr[i],start=low,end=high
+
+    step 2 : while start < end do 
+
+    step 3 while pivot>arr[start]
+     
+    step 4 : star ++
+
+           : end while    
+    step 5 while pivot<arr[end]
+
+      
+
+    step 6 end--
+
+       end while
+
+    
+    step 7 ;if(star<end) do 
+
+    step 8 swap(arr[end],arr[start])
+
+
+      end while
+
+
+    step 9 : swap (arr[start],arr[end])
+
+
+    step 10 : return end;
+
+
+    end 
+   
+
+
